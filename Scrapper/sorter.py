@@ -4,43 +4,20 @@ import os
 import io
 import re
 
-posiedzenie = 1
-dzien = 1
-wypowiedz = 1
-
-# url = f"https://www.sejm.gov.pl/Sejm9.nsf/wypowiedz.xsp?posiedzenie={posiedzenie}&dzien={dzien}&wyp={wypowiedz}"
-# page = urlopen(url)
-# html_bytes = page.read()
-# html = html_bytes.decode("utf-8")
-# end_index = html.find("</html>")
-#
-# h2_index = html.find("<h2 class=\"mowca\"")
-# html_cut = html[h2_index:end_index]
-# finish_index = html_cut.find("</div>")
-# html_finish = html_cut[0:finish_index]
-#
-# path = f'./wypowiedzi/{posiedzenie}'
-# doesExist = os.path.exists(path)
-# if not doesExist:
-#     os.makedirs(path)
-#
-# path = f'./wypowiedzi/{posiedzenie}/{dzien}'
-# doesExist = os.path.exists(path)
-# if not doesExist:
-#     os.makedirs(path)
-#
-# file = io.open(f"./wypowiedzi/{posiedzenie}/{dzien}/{posiedzenie} {dzien} {wypowiedz}.txt",
-#                mode="w", encoding="utf-8")
-# file.write(html_finish)
-#
+# posiedzenie = 1
+# dzien = 1
+# wypowiedz = 1
 # for posiedzenie_file in os.listdir(f"./wypowiedzi"):
 #     for dzien_file in os.listdir(f"./wypowiedzi/{posiedzenie_file}"):
 #         for wypowiedz_file in os.listdir(f"./wypowiedzi/{posiedzenie_file}/{dzien_file}"):
 #             file = io.open(f"./wypowiedzi/{posiedzenie_file}/{dzien_file}/{wypowiedz_file}",
 #                            mode="+", encoding="utf-8")
-#             # TODO usuń nawiasy
 
-# STEP 0.1 - delete speeches not of 'poseł'
+# download also 0's ('marszałek')
+# STEP ? - map all names
+#          (delete 'tekst niewygłoszony')
+
+# STEP ? - delete speeches not of 'poseł'
 # for wypowiedz_file in os.listdir(f"./wypowiedzi/kadencja_9/1/1"):
 #     file = io.open(f"./wypowiedzi/kadencja_9/1/1/{wypowiedz_file}",
 #                            mode="r+", encoding="utf-8")
@@ -56,7 +33,7 @@ wypowiedz = 1
 #         print(posel)
 #         file.close()
 
-# STEP 0.2 - delete 'tekst niewygłoszony' from names of 'poseł'
+# STEP ? - delete 'tekst niewygłoszony' from names of 'poseł'
 # for wypowiedz_file in os.listdir(f"./wypowiedzi/kadencja_9/1/1"):
 #     file = io.open(f"./wypowiedzi/kadencja_9/1/1/{wypowiedz_file}",
 #                    mode="r", encoding="utf-8")
@@ -70,10 +47,28 @@ wypowiedz = 1
 #         file.write(text)
 #     file.close()
 
-# STEP 1 - find opening exclamations
-for wypowiedz_file in os.listdir(f"./wypowiedzi/kadencja_9/1/1"):
-    file = io.open(f"./wypowiedzi/kadencja_9/1/1/{wypowiedz_file}",
+#
+
+# STEP ? - (count occurrences of names, if more than one),
+#          delete other 'poseł' names' and their texts
+
+# STEP ? - calculate appearances of names, if more than one,
+#          manually check speeches with more than one name
+
+# STEP ? - find opening exclamations
+# for wypowiedz_file in os.listdir(f"./wypowiedzi/kadencja_9/1/1"):
+file = io.open(f"./wypowiedzi/kadencja_9/1/1/1 1 27.txt",
                    mode="r", encoding="utf-8")
-    text = file.read()
-    for exclamation in re.finditer('  [A-ZĄĆĘŁŃÓŚŹŻ][^]*?!', text)
-        print(exclamation)
+text = file.read()
+for exclamation in re.finditer('  [A-ZĄĆĘŁŃÓŚŹŻ][^(?!\.\?)]*\!|\! [A-ZĄĆĘŁŃÓŚŹŻ][^(?!\.\?)]*\!', text):
+    print(exclamation[0][2:])
+
+# STEP ? - delete all explanations from files
+# STEP ? - delete parenthesis statements
+# STEP ? - replace ... occurrences
+
+# STEP ? - delete HTML formatting
+# STEP ? - delete white chars
+# STEP ? - delete all ... ... occurrences
+
+# STEP ? - move speeches to 'posel' files
