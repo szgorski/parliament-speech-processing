@@ -1,6 +1,9 @@
 # Custom
 Scrapper/kadencja_8/
 Scrapper/kadencja_9/
+Scrapper/data_copy/
+Scrapper/data_sorted/
+Scrapper/data_transformed (unpack)/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
